@@ -1118,7 +1118,7 @@
             const encodedMessage = encodeURIComponent(message);
             
             // Переходим в Telegram (замените @vapeshop_manager на реальный username менеджера)
-            window.open(`https://t.me/@kefirlybly?text=${encodedMessage}`, '_blank');
+            window.open(`https://t.me/kefirlybly?text=${encodedMessage}`, '_blank');
         });
         
         // Открытие/закрытие корзины
@@ -1144,6 +1144,38 @@
         renderProducts();
         updateCart();
     </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Проверяем, что мы в Telegram WebApp
+    if (window.Telegram && Telegram.WebApp) {
+        // Инициализация WebApp
+        Telegram.WebApp.expand();
+        Telegram.WebApp.enableClosingConfirmation();
+        
+        // Функция отправки данных о заказе
+        function sendOrderComplete(orderId) {
+            const orderData = {
+                order_completed: true,
+                order_id: orderId,
+                timestamp: new Date().toISOString()
+            };
+            
+            Telegram.WebApp.sendData(JSON.stringify(orderData));
+        }
+        
+        // Пример вызова при оформлении заказа
+        document.getElementById('checkout-btn').addEventListener('click', function() {
+            // Здесь должна быть ваша логика оформления заказа
+            // После успешного оформления:
+            const orderId = 'ORDER-' + Math.floor(Math.random() * 10000); // Генерация ID заказа
+            sendOrderComplete(orderId);
+            
+            // Перенаправление к менеджеру
+            window.open('https://t.me/ahonya', '_blank');
+        });
+    }
+});
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Проверяем, что мы в Telegram WebApp
